@@ -55,6 +55,20 @@ def list_five_most_modified_files(all_commits):
 	for modified_file in sorted_modified_files[:5]:
 		print modified_file
 
+def get_all_commits_by_year_interval(all_commits,begin,end):
+	result_commits = []
+	for commit in all_commits:
+		commit_year = time.gmtime(commit.committed_date).tm_year
+
+                if(commit_year <= end and commit_year >=begin):
+                        result_commits.append(commit)
+
+	return result_commits
+
+
+#def list_most_active_devs(all_commits):
+#	headcommit.author.name
+
 # End of functions definitions
 
 # Start of the main program flow
@@ -73,3 +87,19 @@ count_commits_by_message(all_commits)
 
 # # Question 4
 list_five_most_modified_files(all_commits)
+
+
+
+# # Question 5
+list_five_most_modified_files(get_all_commits_by_year_interval(all_commits=all_commits, begin=2018, end=2019)
+
+
+# # Question 6
+list_five_most_modified_files(get_all_commits_by_year_interval(all_commits=all_commits, begin=2017, end=2017)
+
+# # Question 7
+
+
+
+
+
