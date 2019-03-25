@@ -54,6 +54,7 @@ def list_five_most_modified_files(all_commits):
 
 	for modified_file in sorted_modified_files[:5]:
 		print modified_file
+	print "\n"
 
 def get_all_commits_by_year_interval(all_commits,begin,end):
 	result_commits = []
@@ -77,25 +78,28 @@ assert not repo.bare
 all_commits = list(repo.iter_commits('master'))
 
 # Question 1
+print "Question 1"
 count_all_commits(all_commits)
 
 # Question 2
+print "Question 2"
 count_commits_by_year(all_commits)
 
 # # Question 3
+print "Question 3"
 count_commits_by_message(all_commits)
 
 # # Question 4
+print "Question 4"
 list_five_most_modified_files(all_commits)
 
-
-
 # # Question 5
-list_five_most_modified_files(get_all_commits_by_year_interval(all_commits=all_commits, begin=2018, end=2019)
-
+print "Question 5"
+list_five_most_modified_files(get_all_commits_by_year_interval(all_commits=all_commits, begin=2018, end=2019))
 
 # # Question 6
-list_five_most_modified_files(get_all_commits_by_year_interval(all_commits=all_commits, begin=2017, end=2017)
+print "Question 6:"
+list_five_most_modified_files(get_all_commits_by_year_interval(all_commits=all_commits, begin=2017, end=2017))
 
 # # Question 7
 
