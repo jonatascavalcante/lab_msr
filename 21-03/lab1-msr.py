@@ -1,6 +1,7 @@
 from git import Repo
 import time 
 import operator 
+from difflib import unified_diff
 
 # Functions definitions
 
@@ -77,11 +78,28 @@ def list_most_active_devs(all_commits):
 	sorted_devs = sorted(devs.items(), key=operator.itemgetter(1), reverse = True)
 	for dev_name, commits in sorted_devs[:3]:
 		print dev_name + ": " + str(commits)
-
+		
+def find_and_count_content_diffs_all_commits(all_commits, content, type):
+	counter = 0
+	for commit in all_commits:   
+		for diff_item in commit.diff().iter_change_type('M'):
+			if ".java" in diff_item.a_path:
+				after_ = diff_item.a_blob.data_stream.read().decode('utf-8').splitlines(True)
+			
+				before_ = diff_item.b_blob.data_stream.read().decode('utf-8').splitlines(True)
+			
+				#print(after_)
+				totaldiff = unified_diff(after_,before_)
+				for line in totaldiff:
+					if line.startswith(type):	
+						if content in line:
+							print line
+							counter += 1
+	print "content:"+content+" finded #" +str(counter) +" times"
 # End of functions definitions
 
 # Start of the main program flow
-repo = Repo('/Users/jonatascavalcante/Projects/EventBus')
+repo = Repo('C:\\Users\\samue\\EventBus')
 assert not repo.bare
 all_commits = list(repo.iter_commits('master'))
 
@@ -117,5 +135,10 @@ list_most_active_devs(all_commits)
 print "\nQuestion 8:"
 list_most_active_devs(get_all_commits_by_year_interval(all_commits=all_commits, begin=2019, end=2019))
 
+# Question 9
+print "\nQuestion 9:"
+find_and_count_content_diffs_all_commits(all_commits, content="ArrayList", type='+')
 
-
+# Question 10
+print "\nQuestion 10:"
+find_and_count_content_diffs_all_commits(all_commits, content="Vector", type='-')
