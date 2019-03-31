@@ -7,24 +7,29 @@ ANALYZED_REPO = '/Users/jonatascavalcante/Projects/EventBus'
 # Functions definitions
 def count_qtd_files(commit):
 	stats = commit.stats
+	
 	return stats.total['files']
 
 
 def count_qtd_java_files(commit):
 	stats = commit.stats
 	java_files = 0
+	
 	for file in stats.files:
 		if file.endswith('.java'):
 			java_files += 1
+	
 	return java_files
 
 
 def count_qtd_java_lines(commit):
 	stats = commit.stats
 	java_lines = 0
+	
 	for file, file_stats in stats.files.iteritems():
 		if file.endswith('.java'):
 			java_lines += file_stats['lines']
+	
 	return java_lines
 
 
@@ -35,6 +40,7 @@ def get_all_commits_by_year_interval(all_commits, begin, end):
 
                 if(commit_year <= end and commit_year >= begin):
                         result_commits.append(commit)
+	
 	return result_commits
 
 
