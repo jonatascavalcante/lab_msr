@@ -2,6 +2,7 @@ from git import Repo
 import time 
 
 CURRENT_YEAR = 2019
+ANALYZED_REPO = '/Users/jonatascavalcante/Projects/EventBus'
 
 # Functions definitions
 def count_qtd_files(commit):
@@ -32,9 +33,8 @@ def get_all_commits_by_year_interval(all_commits, begin, end):
 	for commit in all_commits:
 		commit_year = time.gmtime(commit.committed_date).tm_year
 
-                if(commit_year <= end and commit_year >=begin):
+                if(commit_year <= end and commit_year >= begin):
                         result_commits.append(commit)
-
 	return result_commits
 
 
@@ -82,7 +82,7 @@ def count_qtd_java_lines_by_year(all_commits):
 # End of functions definitions
 
 # Start of the main program flow
-repo = Repo('/Users/jonatascavalcante/Projects/EventBus')
+repo = Repo(ANALYZED_REPO)
 assert not repo.bare
 all_commits = list(repo.iter_commits('master'))
 first_commit_index = len(all_commits) - 1
