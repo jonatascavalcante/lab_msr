@@ -85,7 +85,6 @@ def qtd_java_files_by_year(commits_of_the_year):
 
 
 def qtd_java_lines_by_year(commits_of_the_year):
-	java_files_of_year = Set([])
 	qtd_java_lines = 0
 	
 	for commit in commits_of_the_year:
