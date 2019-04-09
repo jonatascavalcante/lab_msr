@@ -35,7 +35,8 @@ def cra(fname):
 	n_lines = file_len(fname)
 	cta = file_stats["cta"]
 
-	cra = cta / n_lines
+	cra = cta*100 / n_lines
+
 	return cra
 
 
@@ -55,6 +56,7 @@ def cp(commit):
 
 def file_len(fname):
     with open(fname) as f:
+    	i = 0
         for i, l in enumerate(f):
             pass
     return i + 1
