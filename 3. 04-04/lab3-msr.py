@@ -1,7 +1,7 @@
 from git import Repo
 import os, os.path
 
-ANALYZED_REPO = '/Users/jonatascavalcante/Projects/tcf_cfsd'
+ANALYZED_REPO = '/Users/jonatascavalcante/Projects/EventBus'
 
 # Functions definitions
 def cta_mca(fname):
@@ -11,6 +11,7 @@ def cta_mca(fname):
 	with open(fname) as file:
 		for line in file:
 			line_complexity = 0
+			line = line.replace("  ","\t")
 			words = line.split('\t')
 			for word in words:
 				if(word == ''):
@@ -35,7 +36,6 @@ def cra(fname):
 	cta = file_stats["cta"]
 
 	cra = cta / n_lines
-
 	return cra
 
 
@@ -114,16 +114,16 @@ print "Biggest CTA: " + str(biggest_cta_cra_mca["big_cta"])
 print "Biggest CRA: " + str(biggest_cta_cra_mca["big_cra"])
 print "Biggest MCA: " + str(biggest_cta_cra_mca["big_mca"])
 
-# Question 2
-print "\nQuestion 2:"
+# # Question 2
+# print "\nQuestion 2:"
 
 # Question 3
 print "\nQuestion 3:"
 print "CP of the last commit: " + str(cp(all_commits[0]))
 
-# Question 4
-print "\nQuestion 4:"
-print "CP of the last commit of one year ago: " + str(cp(all_commits[0]))
+# # Question 4
+# print "\nQuestion 4:"
+# print "CP of the last commit of one year ago: " + str(cp(all_commits[0]))
 
 # Question 5
 print "\nQuestion 5:"
