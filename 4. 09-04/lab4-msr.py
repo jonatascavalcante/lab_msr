@@ -85,6 +85,8 @@ most_connected_file_name = ''
 biggest_edge_weight = 0
 biggest_edge_weight_file_a = ''
 biggest_edge_weight_file_b = ''
+most_important_file_con = 0
+most_important_file_name = ''
 
 for project_file in all_project_files:
     repo_graph.addVertex(project_file)
@@ -101,9 +103,15 @@ for vertex in repo_graph:
             biggest_edge_weight = vertex.getWeight(connection)
             biggest_edge_weight_file_a = vertex.id
             biggest_edge_weight_file_b = connection
+            important_file_con = vertex.getWeight(connection) * len(vertex.connectedTo)
+            if(important_file_con > most_important_file_con):
+                most_important_file_name = vertex.id
 
 print "Question 1:"
 print biggest_edge_weight_file_a + " and " + biggest_edge_weight_file_b
 
 print "\nQuestion 2:"
 print most_connected_file_name + " with " + str(most_connected_file_connections) + " connections."
+
+print "\nQuestion 3:"
+print most_important_file_name
