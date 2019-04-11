@@ -127,7 +127,7 @@ repo.git.checkout(all_commits[0])
 maxdt = date.today() - timedelta(365)
 mindt = date.today() - timedelta(10*365)
 
-
+"""
 # Question 1
 print "Question 1:"
 biggest_dict = biggest_cta_cra_mca(all_commits[0])
@@ -159,3 +159,5 @@ print "CP of the last commit of one year ago: " + str(cp(ly_commits[0]))
 print "\nQuestion 5:"
 for commit in all_commits:
 	print commit.hexsha + ": CP = " + str(cp(commit))
+"""
+repo.git.checkout(all_commits[0])
