@@ -105,13 +105,14 @@ for vertex in repo_graph:
             biggest_edge_weight_file_b = connection
             important_file_con = vertex.getWeight(connection) * len(vertex.connectedTo)
             if(important_file_con > most_important_file_con):
+                most_important_file_con = important_file_con
                 most_important_file_name = vertex.id
 
 print "Question 1:"
-print biggest_edge_weight_file_a + " and " + biggest_edge_weight_file_b
+print biggest_edge_weight_file_a + " and\n" + biggest_edge_weight_file_b + "\nwith " + str(biggest_edge_weight) + " modifications together."
 
 print "\nQuestion 2:"
 print most_connected_file_name + " with " + str(most_connected_file_connections) + " connections."
 
 print "\nQuestion 3:"
-print most_important_file_name
+print most_important_file_name + " with weight of " + str(most_important_file_con)
