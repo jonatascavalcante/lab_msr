@@ -46,12 +46,9 @@ def all_project_files(commits):
     all_project_files = Set([])
     
     for commit in commits:
-        repo.git.checkout(commit)
-        for root_folder, directory, files in os.walk(ANALYZED_REPO):
-            for file in files:
-                if file.endswith('.java'):
-                    file_name = root_folder + '/' + file
-                    all_project_files.add(file_name)
+        commit_files = commit.stats.files.keys()
+			for file in commit_files:
+				all_project_files.add(file)
 
     return all_project_files
 
