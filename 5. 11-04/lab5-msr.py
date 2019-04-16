@@ -46,11 +46,19 @@ for project_file in all_project_files:
 
 connect_files_commited_together(all_commits, G)
 
-for node in G:
-	wG.add_node(node)
-	for edge in G[node]:
-		if G[node][edge]['weight'] > 10:
-			wG.add_edge(node, edge, weight=G[node][edge]['weight'])
+wG = nx.Graph()
+node_color = []
+for n in G:
+   
+    nsum = 0
+    for e in G[n]:
+        nsum += G[n][e]['weight']
+        if G[n][e]['weight'] > 10:
+        
+            wG.add_node(n)
+            wG.add_edge(n,e,weight=G[n][e]['weight'])
+    if(wG.has_node(n)):
+        node_color.append(nsum)
 
-nx.draw_random(wG, with_labels=False, edge_color="black", node_size = 5, width = 1, node_color="blue")
+nx.draw_random(wG, with_labels=False,node_size=10, width = 0.1, node_color=node_color)
 plt.show()
