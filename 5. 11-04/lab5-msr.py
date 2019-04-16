@@ -45,5 +45,5 @@ for project_file in all_project_files:
 
 connect_files_commited_together(all_commits, G)
 
-plt.subplot(121)
+nx.draw_random(G, with_labels=False, edge_color="black",node_size=5, width = 0.005)
 plt.show()
