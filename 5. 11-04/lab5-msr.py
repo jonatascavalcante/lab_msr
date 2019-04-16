@@ -25,16 +25,14 @@ def connect_files_commited_together(all_commits, G):
 			if commit_files[i].endswith(".java"):
 				for j in range(i+1, len(commit_files)):
 					if commit_files[j].endswith(".java"):
-						if G[commit_files[i]][commit_files[j]] != {}:
-							G.add_edge((commit_files[i],commit_files[j], {"weight":1}))
-						else:
+						if G.has_edge(commit_files[i],commit_files[j]):
 							G[commit_files[i]][commit_files[j]]['weight'] += 1
-							
-						if G[commit_files[j]][commit_files[i]] != {}:
-							G.add_edge((commit_files[j],commit_files[i], {"weight":1}))		
 						else:
+							G.add_edge(commit_files[i],commit_files[j], weight=1)
+						if G.has_edge(commit_files[j],commit_files[i]):
 							G[commit_files[j]][commit_files[i]]['weight'] += 1
-       
+						else:
+							G.add_edge(commit_files[j],commit_files[i], weight=1)		
 repo = Repo(ANALYZED_REPO)
 all_commits = list(repo.iter_commits('master'))
 
@@ -48,3 +46,4 @@ for project_file in all_project_files:
 connect_files_commited_together(all_commits, G)
 
 plt.subplot(121)
+plt.show()

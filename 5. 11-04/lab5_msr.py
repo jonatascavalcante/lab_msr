@@ -5,7 +5,7 @@ import time
 import datetime
 from datetime import date, timedelta
 import networkx as nx
-
+import matplotlib.pyplot as plt
 
 if platform.system() == "Windows":
 	ANALYZED_REPO = 'C:\\Users\\samue\\EventBus'
@@ -26,8 +26,7 @@ def get_all_project_files(commits):
 	return all_project_files
 
 def connect_files_commited_together(all_commits, G):
-   
-   for commit in all_commits:
+	for commit in all_commits:
 		commit_files = commit.stats.files.keys()
 		
 		for i in range(len(commit_files)):
@@ -44,9 +43,9 @@ def connect_files_commited_together(all_commits, G):
 						
 						else:
 							G[commit_files[j]][commit_files[i]]['weight'] += 1
-       
-           
-        
+	 
+		 
+	
 
 repo = Repo(ANALYZED_REPO)
 all_commits = list(repo.iter_commits('master'))
@@ -58,6 +57,7 @@ G = nx.Graph()
 for project_file in all_project_files:
 	G.add_node(project_file)
 
-#
-#for commit in all_commits:
-#	connect_files_commited_together(commit, repo_graph)
+connect_files_commited_together(all_commits, G)
+
+
+plt.subplot(121)
