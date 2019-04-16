@@ -39,11 +39,18 @@ all_commits = list(repo.iter_commits('master'))
 all_project_files = get_all_project_files(all_commits)
 
 G = nx.Graph()
+wG = nx.Graph()
 
 for project_file in all_project_files:
 	G.add_node(project_file)
 
 connect_files_commited_together(all_commits, G)
 
-nx.draw_random(G, with_labels=False, edge_color="black",node_size=5, width = 0.005)
+for node in G:
+	wG.add_node(node)
+	for edge in G[node]:
+		if G[node][edge]['weight'] > 10:
+			wG.add_edge(node, edge, weight=G[node][edge]['weight'])
+
+nx.draw_random(wG, with_labels=False, edge_color="black", node_size = 5, width = 1, node_color="blue")
 plt.show()
