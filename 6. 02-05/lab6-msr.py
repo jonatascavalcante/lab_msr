@@ -3,6 +3,8 @@ import platform
 import operator
 import collections
 
+TRUCK_FACTOR_PERCENT = 0.5
+
 if platform.system() == "Windows":
 	ANALYZED_REPO = 'C:\\Users\\samue\\EventBus'
 else:
@@ -37,11 +39,14 @@ def get_all_project_files(commits):
 		
 	return files
 
-def calculate_authorship(all_project_files):
+def calculate_authorship(all_project_files, files_with_auths, authors):
 	for project_file_key, project_file in all_project_files.iteritems():
 		totalModifications = 0
 		authorships = {}
+		relevant_authorships = {}
 		biggestAuthorship = 0
+
+		files_with_auths[project_file.name] = []
 
 		# Calcula o total de modificacoes realizados no arquivo
 		for authorName, authorContrib in project_file.authors.iteritems():
@@ -65,16 +70,51 @@ def calculate_authorship(all_project_files):
 					key=operator.itemgetter(1), reverse=True) );
 		
 		print project_file.name
+		print project_file.creator
 
 		# Itera sobre as autorias exibindo apenas as que estao entre 0 e 1
 		for authorName, authorContrib in sorted_authorships.iteritems():
 			if authorContrib > 0:
 				print authorName + ": " + str(authorContrib)
-		print "\n"				
+				files_with_auths[project_file.name].append(authorName)
+				if authorName in authors:
+					authors[authorName] += authorContrib
+				else:
+					authors[authorName] = authorContrib
+		print "\n"
+
+def calculate_truck_factor(files_with_auths, authors):
+	totalFiles = len(files_with_auths)
+	affectedFiles = 0
+	truckFactor = 0
+
+	# Itera pelos autores dos arquivos ordenados por contribuicao
+	for authorName, authContrib in authors.iteritems():
+		# Itera nos arquivos do projeto, removendo o autor corrente
+		for file, authors in files_with_auths.iteritems():
+			if authorName in authors:
+				authors.remove(authorName)
+				if len(authors) == 0:
+					affectedFiles += 1
+		truckFactor += 1
+		if affectedFiles >= TRUCK_FACTOR_PERCENT * totalFiles:
+			break
+
+	print "Truck Factor: " + str(truckFactor)			
+
+
 # Fim das definicoes e inicio do fluxo do programa
 
 repo = Repo(ANALYZED_REPO)
 all_commits = list(repo.iter_commits(reverse=True))
 
 all_project_files = get_all_project_files(all_commits)
-calculate_authorship(all_project_files)
+files_with_auths = {}
+authors = {}
+
+calculate_authorship(all_project_files, files_with_auths, authors)
+
+sorted_authors = collections.OrderedDict( sorted(authors.items(), 
+					key=operator.itemgetter(1), reverse=True) );
+
+calculate_truck_factor(files_with_auths, sorted_authors)
